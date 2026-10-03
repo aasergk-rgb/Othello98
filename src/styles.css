@@ -1,0 +1,117 @@
+@import '@fontsource/dotgothic16/japanese-400.css';
+@import '@fontsource/dotgothic16/latin-400.css';
+@import '@fontsource/dotgothic16/latin-ext-400.css';
+
+:root {
+  --face: #c0c0c0; --hi: #fff; --hi2: #dfdfdf; --sh: #808080; --sh2: #000;
+  --navy: #000080; --desk: #008080;
+  --raised: inset -1px -1px 0 #000, inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf;
+  --sunken: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff, inset 2px 2px 0 #000, inset -2px -2px 0 #dfdfdf;
+  --thin: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { margin: 0; height: 100%; background: var(--desk); overflow: hidden; }
+body {
+  font-family: 'DotGothic16', 'MS Gothic', monospace; font-size: 16px; color: #000;
+  user-select: none; -webkit-user-select: none; overscroll-behavior: none;
+  -webkit-font-smoothing: none;
+}
+button, input { font-family: inherit; font-size: inherit; color: inherit; }
+button { cursor: default; }
+svg { shape-rendering: crispEdges; }
+.u { text-decoration: underline; }
+
+.stage {
+  margin: 0 auto; width: 390px; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; background: var(--desk);
+  padding-top: max(env(safe-area-inset-top), 8px);
+}
+
+.window { margin: 0 4px; padding: 3px; background: var(--face); box-shadow: var(--raised); display: flex; flex-direction: column; }
+.titlebar { height: 48px; background: var(--navy); color: #fff; display: flex; align-items: center; gap: 8px; padding: 0 2px 0 8px; }
+.titlebar.inactive { background: #808080; }
+.titlebar .title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; font-size: 16px; font-weight: normal; }
+
+.btn {
+  height: 44px; min-width: 44px; padding: 0 10px; border: 0; background: var(--face); box-shadow: var(--raised);
+  display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; color: #000;
+}
+.btn.default { outline: 1px solid #000; }
+.btn:active:not(:disabled) { box-shadow: var(--sunken); padding: 2px 8px 0 12px; }
+.btn:disabled { color: var(--sh); text-shadow: 1px 1px 0 #fff; }
+.titlebar .btn { padding: 0; }
+
+.sunken { box-shadow: var(--sunken); }
+.field { background: #fff; box-shadow: var(--sunken); }
+.statusbar { display: flex; gap: 2px; font-size: 14px; }
+.statusbar > div { height: 28px; padding: 0 8px; display: flex; align-items: center; box-shadow: var(--thin); white-space: nowrap; }
+.statusbar > div:first-child { flex: 1; min-width: 0; overflow: hidden; }
+
+.group { margin: 0; padding: 10px 10px 4px; min-width: 0; position: relative; border: 1px solid #808080; box-shadow: inset 1px 1px 0 #fff, 1px 1px 0 #fff; display: flex; }
+.group legend { position: absolute; top: -9px; left: 8px; padding: 0 4px; background: var(--face); font-size: 14px; }
+.group.col { flex-direction: column; }
+.opt { flex: 1; min-height: 44px; display: flex; align-items: center; gap: 8px; }
+.opt.check { flex: none; gap: 10px; }
+.radio, .check-box {
+  appearance: none; -webkit-appearance: none; flex: none; margin: 0; width: 20px; height: 20px; background: #fff; box-shadow: var(--sunken);
+}
+.radio { border-radius: 50%; }
+.radio:checked { background: radial-gradient(circle, #000 0, #000 4px, #fff 5px); }
+.check-wrap { position: relative; flex: none; width: 20px; height: 20px; }
+.check-wrap svg { position: absolute; left: 0; top: 0; pointer-events: none; }
+
+.taskbar { margin-top: auto; padding: 6px 4px max(env(safe-area-inset-bottom), 8px); background: var(--face); box-shadow: inset 0 1px 0 #dfdfdf, inset 0 2px 0 #fff; display: flex; align-items: center; gap: 4px; }
+.taskbar .task { flex: 1; min-width: 0; height: 44px; padding: 0 10px; display: flex; align-items: center; background: #dfdfdf; box-shadow: var(--sunken); }
+.taskbar .task span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.taskbar .clock { height: 44px; padding: 0 10px; display: flex; align-items: center; font-size: 14px; box-shadow: var(--thin); }
+
+/* 盤・石 */
+.board-frame { margin: 0 auto; padding: 2px; box-shadow: var(--sunken); }
+.board { width: 359px; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 1px; background: #000; }
+.cell { height: 44px; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; }
+.disc { display: block; border-radius: 50%; flex: none; }
+.disc.black { background: #000; box-shadow: inset 2px 2px 0 #808080, 0 0 0 1px #000; }
+.disc.white { background: #fff; box-shadow: inset -2px -2px 0 #808080, 0 0 0 1px #000; }
+.disc.on-navy.black { box-shadow: inset 2px 2px 0 #808080, 0 0 0 1px #fff; }
+.last-mark { width: 8px; height: 8px; background: #d00000; }
+.hint-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(0, 0, 0, .4); }
+.best-mark { width: 20px; height: 20px; border-radius: 50%; border: 3px solid #ffd400; box-shadow: 0 0 0 1px #000; }
+
+.menubar { display: flex; position: relative; }
+.menubar > button { height: 44px; padding: 0 12px; border: 0; background: transparent; color: #000; }
+.menubar > button.open { background: var(--navy); color: #fff; }
+.dropdown { position: absolute; top: 44px; z-index: 5; min-width: 180px; padding: 2px; background: var(--face); box-shadow: var(--raised), 2px 2px 0 #000; display: flex; flex-direction: column; }
+.dropdown button { height: 44px; padding: 0 16px; border: 0; background: transparent; text-align: left; }
+.dropdown button:active { background: var(--navy); color: #fff; }
+.dropdown button:disabled { color: var(--sh); text-shadow: 1px 1px 0 #fff; }
+.dropdown hr { margin: 2px 0; border: 0; border-top: 1px solid #808080; border-bottom: 1px solid #fff; }
+
+.scorecard { flex: 1; display: flex; align-items: center; gap: 8px; padding: 7px; border: 1px solid #808080; box-shadow: inset 1px 1px 0 #fff, 1px 1px 0 #fff; min-width: 0; }
+.scorecard.turn { outline: 1px dotted #000; outline-offset: -4px; }
+.scorecard .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; }
+.counter { width: 52px; height: 36px; display: flex; align-items: center; justify-content: center; background: #000; color: #ff3030; font-size: 28px; line-height: 1; letter-spacing: 2px; box-shadow: var(--thin); }
+
+.dialog { position: absolute; left: 31px; top: 292px; width: 328px; padding: 3px; background: var(--face); box-shadow: var(--raised); }
+
+.home-icons { display: flex; gap: 4px; padding: 0 12px; }
+.home-icon { width: 88px; min-height: 76px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #fff; font-size: 14px; background: transparent; border: 0; padding: 0; }
+.home-icon:active span { background: var(--navy); outline: 1px dotted #ff0; }
+.big-btn { height: 52px; padding: 0 14px; gap: 12px; text-align: left; width: 100%; }
+.big-btn > span:nth-child(2) { flex: 1; }
+.big-btn small { font-size: 14px; }
+.logo-title { margin: 0; font-size: 40px; line-height: 1; font-weight: normal; color: #fff; text-shadow: 3px 3px 0 #000; }
+
+.tabs { display: flex; align-items: flex-end; padding: 8px 8px 0 10px; }
+.tab { height: 44px; padding: 0 16px; border: 0; border-radius: 3px 3px 0 0; background: var(--face); box-shadow: inset 1px 1px 0 #fff, inset 2px 2px 0 #dfdfdf, inset -1px 0 0 #000, inset -2px 0 0 #808080; }
+.tab.active { position: relative; z-index: 1; height: 48px; margin: 0 0 -2px -2px; }
+.swatch { width: 44px; height: 44px; border: 4px solid var(--face); padding: 0; box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 #dfdfdf; }
+.swatch.sel { outline: 1px dotted #000; outline-offset: 1px; }
+
+.scroll { overflow-y: auto; }
+.doc p { margin: 0 0 10px; line-height: 1.5; font-size: 14px; }
+.doc h2 { margin: 12px 0 6px; font-size: 16px; font-weight: normal; }
+.row-list > div { height: 36px; padding: 0 8px; display: flex; align-items: center; gap: 10px; }
+.row-list > div.sel { background: var(--navy); color: #fff; }
+.disc.on-navy.white { box-shadow: inset -2px -2px 0 #808080, 0 0 0 1px #fff; }
+.dialog.center { top: 50%; transform: translateY(-50%); }
+.overlay { position: absolute; inset: 0; z-index: 4; }

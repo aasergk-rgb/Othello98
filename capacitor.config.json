@@ -1,0 +1,6 @@
+{
+  "appId": "app.reversi.retro",
+  "appName": "リバーシ",
+  "webDir": "dist",
+  "backgroundColor": "#008080"
+}

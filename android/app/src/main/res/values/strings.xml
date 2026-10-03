@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">リバーシ</string>
+    <string name="title_activity_main">リバーシ</string>
+    <string name="package_name">app.reversi.retro</string>
+    <string name="custom_url_scheme">app.reversi.retro</string>
+</resources>
